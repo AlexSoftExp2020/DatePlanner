@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Event: Identifiable, Hashable {
+struct EventTask: Identifiable, Hashable {
     var id = UUID()
     var text: String
     var isCompleted = false
