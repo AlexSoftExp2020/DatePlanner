@@ -20,18 +20,47 @@ struct EventList: View {
                     Section {
                         ForEach(eventData.sortedEvents(period: period)) { $event in
                             NavigationLink {
-                                EventEditor(event: event)
+                                EventEditor(event: $event)
                             } label: {
                                 EventRow(event: event)
+                            }.swipeActions {
+                                Button(role: .destructive) {
+                                    eventData.delete(event)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
                         }
+                    } header: {
+                        Text(period.name)
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                            .fontWeight(.bold)
                     }
                 }
+            }
+        }
+        .navigationTitle("Date Planner")
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    newEvent = Event()
+                    isAddingNewEvent = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $isAddingNewEvent) {
+            NavigationView {
+                EventEditor(event: $newEvent, isNew: true)
             }
         }
     }
 }
 
 #Preview {
-    EventList()
+    NavigationView {
+        EventList().environmentObject(EventData())
+    }
 }
