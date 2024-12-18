@@ -20,9 +20,9 @@ struct EventList: View {
                     Section {
                         ForEach(eventData.sortedEvents(period: period)) { $event in
                             NavigationLink {
-                                EventEditor
+                                EventEditor(event: event)
                             } label: {
-                                
+                                EventRow(event: event)
                             }
                         }
                     }
